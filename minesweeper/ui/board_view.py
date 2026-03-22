@@ -25,7 +25,7 @@ class BoardView(Widget):
         grid-size: 8 8;
         grid-columns: 4 4 4 4 4 4 4 4;
         grid-rows: 3 3 3 3 3 3 3 3;
-        gutter: 0;
+        grid-gutter: 0 0;
     }
 
     BoardView CellButton {
