@@ -12,83 +12,88 @@ class MinesweeperApp(App[None]):
 
     CSS = """
     Screen {
-        background: #0b1220;
-        color: #f5f7ff;
+        background: $background;
+        color: $foreground;
+        align: center middle;
     }
 
     #app-shell {
         width: 1fr;
         height: 1fr;
-        padding: 1 2;
+        padding: 1 2 2 2;
     }
 
     #chrome {
         width: 1fr;
-        max-width: 110;
+        max-width: 96;
         height: auto;
-        margin: 1 0;
+        margin: 0;
     }
 
     #hero {
         width: 1fr;
-        padding: 1 2 0 2;
-        color: #f8fafc;
+        padding: 0 1 0 1;
+        color: $foreground;
         text-style: bold;
     }
 
     #subtitle {
         width: 1fr;
-        padding: 0 2 1 2;
-        color: #9fb0c9;
+        padding: 0 1 1 1;
+        color: #a7b4c8;
     }
 
     #workspace {
         width: 1fr;
         height: auto;
+        align: center top;
     }
 
     .panel {
-        border: round #31405f;
-        background: #111a2c;
-        padding: 1 2;
+        border: round $panel;
+        background: $surface;
+        padding: 1;
     }
 
     #board-panel {
         width: auto;
-        margin-right: 1;
+        margin-right: 2;
     }
 
     #side-panel {
-        width: 28;
-        min-width: 28;
+        width: 26;
+        min-width: 26;
     }
 
     .panel-title {
-        color: #7dd3fc;
+        color: $primary;
         text-style: bold;
-        padding-bottom: 1;
+        padding: 0 1 1 1;
     }
 
     #status {
-        border: round #35507a;
-        background: #16233c;
-        color: #eff6ff;
+        border: round $secondary;
+        background: $panel;
+        color: $foreground;
         padding: 1 1;
         margin-bottom: 1;
     }
 
     #tips {
-        color: #bfd0ea;
+        color: #c7d0dd;
         margin-bottom: 1;
+        padding: 0 1;
     }
 
     #legend {
-        color: #d5e1f5;
+        color: #d8dee9;
+        padding: 0 1;
     }
     """
 
     def __init__(self) -> None:
         super().__init__()
+        self.theme = "nord"
         self.game_state = GameState()
 
     def compose(self) -> ComposeResult:
@@ -97,7 +102,7 @@ class MinesweeperApp(App[None]):
             with Vertical(id="chrome"):
                 yield Static("Minesweeper Starter", id="hero")
                 yield Static(
-                    "A small Textual project for practicing branches, pull requests, and merge conflicts.",
+                    "Textual starter project for branch, PR, merge, and conflict practice.",
                     id="subtitle",
                 )
                 with Horizontal(id="workspace"):
@@ -108,15 +113,14 @@ class MinesweeperApp(App[None]):
                         yield Static("Status", classes="panel-title")
                         yield Static(self.game_state.status_text, id="status")
                         yield Static(
-                            "Left click reveals one cell.\n"
-                            "Some features are intentionally incomplete so the repo can be used for collaboration practice.",
+                            "Left click reveals one cell.\nSeveral features are intentionally incomplete.",
                             id="tips",
                         )
                         yield Static(
                             "Legend\n"
-                            "[ ] Hidden cell\n"
-                            "[1-8] Adjacent mines\n"
-                            "[*] Mine after reveal",
+                            "blank = hidden or empty\n"
+                            "1-8 = adjacent mines\n"
+                            "* = revealed mine",
                             id="legend",
                         )
         yield Footer()

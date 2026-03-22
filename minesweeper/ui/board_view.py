@@ -19,80 +19,80 @@ class BoardView(Widget):
     BoardView {
         width: auto;
         height: auto;
-        background: #0f172a;
-        padding: 1;
-        border: round #23314d;
+        background: transparent;
+        padding: 0;
+        border: none;
     }
 
     BoardView Grid {
         grid-size: 8 8;
         grid-columns: 5 5 5 5 5 5 5 5;
         grid-rows: 3 3 3 3 3 3 3 3;
-        grid-gutter: 1 1;
+        grid-gutter: 0 0;
     }
 
     BoardView CellButton {
         min-width: 5;
         height: 3;
         content-align: center middle;
-        border: round #334155;
-        background: #1e293b;
-        color: #e2e8f0;
+        border: round $panel;
+        background: $panel;
+        color: $foreground;
         text-style: bold;
     }
 
     BoardView CellButton.-hidden {
-        background: #334155;
-        color: #cbd5e1;
-        border: round #475569;
+        background: #434c5e;
+        color: #d8dee9;
+        border: round #4c566a;
     }
 
     BoardView CellButton.-revealed {
-        background: #e2e8f0;
-        color: #0f172a;
-        border: round #94a3b8;
+        background: #eceff4;
+        color: #2e3440;
+        border: round #d8dee9;
     }
 
     BoardView CellButton.-empty {
-        color: #94a3b8;
+        color: #a0aec0;
     }
 
     BoardView CellButton.-mine {
-        background: #b91c1c;
-        color: #fff7ed;
-        border: round #ef4444;
+        background: #bf616a;
+        color: #eceff4;
+        border: round #d08770;
     }
 
     BoardView CellButton.-count-1 {
-        color: #2563eb;
+        color: #5e81ac;
     }
 
     BoardView CellButton.-count-2 {
-        color: #15803d;
+        color: #a3be8c;
     }
 
     BoardView CellButton.-count-3 {
-        color: #dc2626;
+        color: #bf616a;
     }
 
     BoardView CellButton.-count-4 {
-        color: #7c3aed;
+        color: #b48ead;
     }
 
     BoardView CellButton.-count-5 {
-        color: #c2410c;
+        color: #d08770;
     }
 
     BoardView CellButton.-count-6 {
-        color: #0f766e;
+        color: #88c0d0;
     }
 
     BoardView CellButton.-count-7 {
-        color: #be123c;
+        color: #8fbcbb;
     }
 
     BoardView CellButton.-count-8 {
-        color: #1f2937;
+        color: #4c566a;
     }
     """
 
