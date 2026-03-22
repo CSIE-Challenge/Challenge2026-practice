@@ -1,0 +1,14 @@
+[project]
+name = "minesweeper-starter"
+version = "0.1.0"
+description = "Starter Textual minesweeper project for Git collaboration practice"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "textual>=6.1.0,<7.0.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
