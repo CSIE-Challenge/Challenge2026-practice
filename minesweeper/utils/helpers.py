@@ -32,4 +32,6 @@ def iter_neighbor_positions(
 
 
 def count_adjacent_mines(board: list[list[Cell]], x: int, y: int) -> int:
-    return sum(1 for nx, ny in iter_neighbor_positions(board, x, y) if board[ny][nx].has_mine)
+    return sum(
+        1 for nx, ny in iter_neighbor_positions(board, x, y) if board[ny][nx].has_mine
+    )

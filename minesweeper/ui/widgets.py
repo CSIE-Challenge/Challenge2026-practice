@@ -30,7 +30,9 @@ class CellButton(Button):
         self.label = self._label_for(cell)
         self.set_class(not cell.revealed, "-hidden")
         self.set_class(cell.revealed, "-revealed")
-        self.set_class(cell.revealed and cell.adjacent_mines == 0 and not cell.has_mine, "-empty")
+        self.set_class(
+            cell.revealed and cell.adjacent_mines == 0 and not cell.has_mine, "-empty"
+        )
         self.set_class(cell.revealed and cell.has_mine, "-mine")
 
         for count in range(1, 9):
