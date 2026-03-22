@@ -19,18 +19,80 @@ class BoardView(Widget):
     BoardView {
         width: auto;
         height: auto;
+        background: #0f172a;
+        padding: 1;
+        border: round #23314d;
     }
 
     BoardView Grid {
         grid-size: 8 8;
-        grid-columns: 4 4 4 4 4 4 4 4;
+        grid-columns: 5 5 5 5 5 5 5 5;
         grid-rows: 3 3 3 3 3 3 3 3;
-        grid-gutter: 0 0;
+        grid-gutter: 1 1;
     }
 
     BoardView CellButton {
-        min-width: 4;
+        min-width: 5;
         height: 3;
+        content-align: center middle;
+        border: round #334155;
+        background: #1e293b;
+        color: #e2e8f0;
+        text-style: bold;
+    }
+
+    BoardView CellButton.-hidden {
+        background: #334155;
+        color: #cbd5e1;
+        border: round #475569;
+    }
+
+    BoardView CellButton.-revealed {
+        background: #e2e8f0;
+        color: #0f172a;
+        border: round #94a3b8;
+    }
+
+    BoardView CellButton.-empty {
+        color: #94a3b8;
+    }
+
+    BoardView CellButton.-mine {
+        background: #b91c1c;
+        color: #fff7ed;
+        border: round #ef4444;
+    }
+
+    BoardView CellButton.-count-1 {
+        color: #2563eb;
+    }
+
+    BoardView CellButton.-count-2 {
+        color: #15803d;
+    }
+
+    BoardView CellButton.-count-3 {
+        color: #dc2626;
+    }
+
+    BoardView CellButton.-count-4 {
+        color: #7c3aed;
+    }
+
+    BoardView CellButton.-count-5 {
+        color: #c2410c;
+    }
+
+    BoardView CellButton.-count-6 {
+        color: #0f766e;
+    }
+
+    BoardView CellButton.-count-7 {
+        color: #be123c;
+    }
+
+    BoardView CellButton.-count-8 {
+        color: #1f2937;
     }
     """
 

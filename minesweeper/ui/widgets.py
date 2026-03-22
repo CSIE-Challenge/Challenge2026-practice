@@ -11,22 +11,33 @@ class CellButton(Button):
         self.x = x
         self.y = y
         self.can_focus = False
+        self.sync_with_cell(cell)
 
     @staticmethod
     def _label_for(cell: Cell) -> str:
         if not cell.revealed:
-            return "[]"
+            return " "
 
         if cell.has_mine:
             return "*"
 
         if cell.adjacent_mines == 0:
-            return "."
+            return " "
 
         return str(cell.adjacent_mines)
 
     def sync_with_cell(self, cell: Cell) -> None:
         self.label = self._label_for(cell)
+        self.set_class(not cell.revealed, "-hidden")
+        self.set_class(cell.revealed, "-revealed")
+        self.set_class(cell.revealed and cell.adjacent_mines == 0 and not cell.has_mine, "-empty")
+        self.set_class(cell.revealed and cell.has_mine, "-mine")
+
+        for count in range(1, 9):
+            self.set_class(
+                cell.revealed and not cell.has_mine and cell.adjacent_mines == count,
+                f"-count-{count}",
+            )
 
     # TODO: Support right-click flag / unflag here and update the widget label or
     # style to reflect flagged cells. The starter only wires left-click reveal so
