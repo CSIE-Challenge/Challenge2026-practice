@@ -116,5 +116,5 @@ class BoardView(Widget):
         for button in self.query(CellButton):
             button.sync_with_cell(self.state.cell_at(button.x, button.y))
 
-    # TODO: Improve board rendering here. Add visible coordinates, clearer spacing,
-    # and a more readable color/styling scheme so the grid is easier to understand.
+    # TODO: Add visible row / column coordinates here and tighten the board layout
+    # so positions are easier to read at a glance.

@@ -48,9 +48,9 @@ uv run python -m minesweeper.app
 
 這個 repo 會有 5 個對應 TODO 的 issue，可以挑一個認領。
 
-1. `TODO 1` 改善棋盤渲染
+1. `TODO 1` 加上座標並整理棋盤可讀性
    主要檔案：`minesweeper/ui/board_view.py`
-   內容：讓 grid 更好看、加座標、加基本顏色或更清楚的顯示方式
+   內容：加上 row / column 座標、讓座標與格子對齊、整理棋盤資訊層次與可讀性
 
 2. `TODO 2` 支援右鍵旗標
    主要檔案：`minesweeper/ui/widgets.py`
@@ -103,7 +103,7 @@ git commit -m "asdf"
 ```bash
 git commit -m "feat: add flood fill for empty cells"
 git commit -m "feat: support right click flag toggle"
-git commit -m "fix: update board rendering labels"
+git commit -m "feat: add board coordinates and labels"
 ```
 
 ### 4. push 你的 branch

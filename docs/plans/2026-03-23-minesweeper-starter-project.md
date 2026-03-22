@@ -63,7 +63,7 @@
 
 **Step 2:** Add a `BoardView` container that renders the 8x8 board and updates the display after reveals.
 
-**Step 3:** Leave separate TODOs in `ui/board_view.py` and `ui/widgets.py` for board styling and right-click flagging.
+**Step 3:** Leave separate TODOs in `ui/board_view.py` and `ui/widgets.py` for board coordinates/readability work and right-click flagging.
 
 **Step 4:** Commit the board rendering and interaction.
 
