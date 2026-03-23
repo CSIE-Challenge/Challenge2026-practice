@@ -34,6 +34,9 @@ class CellButton(Button):
         if cell.adjacent_mines == 0:
             return " "
 
+        if cell.adjacent_mines == 100:
+            return "?"
+
         return str(cell.adjacent_mines)
 
     def sync_with_cell(self, cell: Cell) -> None:

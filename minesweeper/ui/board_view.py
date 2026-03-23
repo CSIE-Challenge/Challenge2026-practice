@@ -25,9 +25,9 @@ class BoardView(Widget):
     }
 
     BoardView Grid {
-        grid-size: 8 8;
-        grid-columns: 5 5 5 5 5 5 5 5;
-        grid-rows: 3 3 3 3 3 3 3 3;
+        grid-size: 10 10;
+        grid-columns: 5 5 5 5 5 5 5 5 5 5;
+        grid-rows: 3 3 3 3 3 3 3 3 3 3;
         grid-gutter: 0 0;
     }
 
@@ -48,7 +48,7 @@ class BoardView(Widget):
     }
 
     BoardView CellButton.-revealed {
-        background: #eceff4;
+        background: #00ff00;
         color: #2e3440;
         border: round #d8dee9;
     }
@@ -60,7 +60,7 @@ class BoardView(Widget):
     }
 
     BoardView CellButton.-empty {
-        color: #a0aec0;
+        color: #ff0000;
     }
 
     BoardView CellButton.-mine {
