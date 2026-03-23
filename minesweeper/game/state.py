@@ -8,8 +8,8 @@ from minesweeper.game.logic import reveal_cells
 
 @dataclass
 class GameState:
-    width: int = 8
-    height: int = 8
+    width: int = 10
+    height: int = 10
     board: list[list[Cell]] = field(init=False)
     status_text: str = "Left click a cell to reveal it."
 
