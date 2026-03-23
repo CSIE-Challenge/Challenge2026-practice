@@ -24,7 +24,7 @@ class GameState:
 
         if changed_cells:
             cell = changed_cells[-1]
-            self.status_text = f"Revealed ({cell.x}, {cell.y})"
+            self.status_text = f"Reeee ({cell.x}, {cell.y})"
 
         return changed_cells
 
