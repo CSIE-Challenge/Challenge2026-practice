@@ -33,7 +33,11 @@ class GameState:
 
         if changed_cells:
             cell = changed_cells[-1]
-            self.status_text = f"Reeee ({cell.x}, {cell.y})"
+            self.status_text = f"Revealed ({cell.x}, {cell.y})"
+        if self.is_win():
+            self.status_text = f"You win!"
+        if self.is_lose():
+            self.status_text = f"You lose :("
 
         return changed_cells
 
@@ -43,11 +47,19 @@ class GameState:
             cell.flagged = not cell.flagged
 
     def is_win(self) -> bool:
+        for row in self.board:
+            for cell in row:
+                if cell.has_mine is False and cell.revealed is False:
+                    return False
         # TODO: Implement win detection after reveal logic is complete. The starter
         # should eventually report a win when every non-mine cell has been opened.
-        return False
+        return True
 
     def is_lose(self) -> bool:
+        for row in self.board:
+            for cell in row:
+                if cell.has_mine is True and cell.revealed is True:
+                    return True
         # TODO: Implement lose detection and expose a proper game-over state. The
         # starter does not stop input or report results yet, even if a mine is hit.
         return False
