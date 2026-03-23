@@ -10,16 +10,25 @@ from minesweeper.game.logic import reveal_cells
 class GameState:
     width: int = 8
     height: int = 8
+    mine_count: int = 6
     board: list[list[Cell]] = field(init=False)
     status_text: str = "Left click a cell to reveal it."
+    is_first_reveal: bool = True
 
     def __post_init__(self) -> None:
-        self.board = create_board(self.width, self.height)
+        self.board = [
+            [Cell(x=x, y=y, has_mine=False) for x in range(self.width)]
+            for y in range(self.height)
+        ]
 
     def cell_at(self, x: int, y: int) -> Cell:
         return self.board[y][x]
 
     def reveal_cell(self, x: int, y: int) -> list[Cell]:
+        if self.is_first_reveal:
+            self.board = create_board(self.width, self.height, self.mine_count, (x, y))
+            self.is_first_reveal = False
+
         changed_cells = reveal_cells(self.board, x, y)
 
         if changed_cells:
@@ -29,6 +38,7 @@ class GameState:
             self.status_text = f"You win!"
         if self.is_lose():
             self.status_text = f"You lose :("
+
 
         return changed_cells
 
