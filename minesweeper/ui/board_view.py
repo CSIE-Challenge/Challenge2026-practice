@@ -48,13 +48,13 @@ class BoardView(Widget):
     }
 
     BoardView CellButton.-revealed {
-        background: #eceff4;
+        background: #00ff00;
         color: #2e3440;
         border: round #d8dee9;
     }
 
     BoardView CellButton.-empty {
-        color: #a0aec0;
+        color: #ff0000;
     }
 
     BoardView CellButton.-mine {
