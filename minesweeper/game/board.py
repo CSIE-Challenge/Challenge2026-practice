@@ -8,6 +8,7 @@ from minesweeper.utils.helpers import count_adjacent_mines
 DEFAULT_MINES = {
     (1, 1),
     (5, 1),
+    (0, 2),
     (3, 3),
     (6, 4),
     (2, 6),
