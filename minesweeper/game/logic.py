@@ -20,6 +20,7 @@ def reveal_cells(board: list[list[Cell]], x: int, y: int) -> list[Cell]:
     return revealed_cells
 
 
+
 def within_bounds(board: list[list[Cell]], x: int, y: int) -> bool:
     if not board:
         return False

@@ -12,7 +12,7 @@ class GameState:
     height: int = 8
     board: list[list[Cell]] = field(init=False)
     status_text: str = "Left click a cell to reveal it."
-
+    
     def __post_init__(self) -> None:
         self.board = create_board(self.width, self.height)
 
@@ -30,7 +30,8 @@ class GameState:
 
     def toggle_flag(self, x: int, y: int) -> None:
         cell = self.cell_at(x, y)
-        cell.flagged = not cell.flagged
+        if not cell.revealed:
+            cell.flagged = not cell.flagged
 
     def is_win(self) -> bool:
         # TODO: Implement win detection after reveal logic is complete. The starter
