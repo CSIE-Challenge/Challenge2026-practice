@@ -13,11 +13,7 @@ def reveal_cells(board: list[list[Cell]], x: int, y: int) -> list[Cell]:
 
     cell.revealed = True
     revealed_cells = [cell]
-    print("PixelCat <3")
 
-    # TODO: Implement flood fill so revealing an empty cell also reveals nearby
-    # empty neighbors and their borders. Right now the starter only reveals one
-    # cell at a time to leave a focused issue for students.
     if cell.adjacent_mines > 0:
         return revealed_cells
 

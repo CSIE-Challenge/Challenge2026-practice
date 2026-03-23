@@ -1,6 +1,6 @@
 from textual.app import App, ComposeResult
-from textual.containers import Container, Horizontal, Vertical
-from textual.widgets import Footer, Header, Static
+from textual.containers import Container, Vertical
+from textual.widgets import Static
 
 from minesweeper.game.state import GameState
 from minesweeper.ui.board_view import BoardView
@@ -18,35 +18,21 @@ class MinesweeperApp(App[None]):
     }
 
     #app-shell {
-        width: 1fr;
-        height: 1fr;
-        padding: 1 2 2 2;
+        width: auto;
+        height: auto;
+        padding: 1;
     }
 
     #chrome {
-        width: 1fr;
-        max-width: 96;
+        width: auto;
+        max-width: 62;
         height: auto;
         margin: 0;
     }
 
-    #hero {
-        width: 1fr;
-        padding: 0 1 0 1;
-        color: $foreground;
-        text-style: bold;
-    }
-
-    #subtitle {
-        width: 1fr;
-        padding: 0 1 1 1;
-        color: #a7b4c8;
-    }
-
     #workspace {
-        width: 1fr;
+        width: auto;
         height: auto;
-        align: center top;
     }
 
     .panel {
@@ -57,18 +43,12 @@ class MinesweeperApp(App[None]):
 
     #board-panel {
         width: auto;
-        margin-right: 2;
-    }
-
-    #side-panel {
-        width: 26;
-        min-width: 26;
     }
 
     .panel-title {
         color: $primary;
         text-style: bold;
-        padding: 0 1 1 1;
+        padding: 0 0 1 0;
     }
 
     #status {
@@ -79,15 +59,19 @@ class MinesweeperApp(App[None]):
         margin-bottom: 1;
     }
 
-    #tips {
-        color: #c7d0dd;
-        margin-bottom: 1;
-        padding: 0 1;
+    #howto {
+        color: #e5e9f0;
+        padding-bottom: 1;
     }
 
     #legend {
         color: #d8dee9;
-        padding: 0 1;
+        padding-top: 1;
+    }
+
+    #game-note {
+        color: #a7b4c8;
+        padding-top: 1;
     }
     """
 
@@ -95,38 +79,45 @@ class MinesweeperApp(App[None]):
         super().__init__()
         self.theme = "nord"
         self.game_state = GameState()
+        self._last_game_over_message: str | None = None
 
     def compose(self) -> ComposeResult:
-        yield Header()
         with Container(id="app-shell"):
             with Vertical(id="chrome"):
-                yield Static("Minesweeper Starter", id="hero")
-                yield Static(
-                    "Textual starter project for branch, PR, merge, and conflict practice.",
-                    id="subtitle",
-                )
-                with Horizontal(id="workspace"):
+                with Vertical(id="workspace"):
                     with Vertical(id="board-panel", classes="panel"):
-                        yield Static("Board", classes="panel-title")
-                        yield BoardView(self.game_state)
-                    with Vertical(id="side-panel", classes="panel"):
-                        yield Static("Status", classes="panel-title")
+                        yield Static("Minesweeper", classes="panel-title")
                         yield Static(self.game_state.status_text, id="status")
                         yield Static(
-                            "Left click reveals one cell.\nSeveral features are intentionally incomplete.",
-                            id="tips",
+                            "Click: reveal  •  Right Click: flag  •  Shift + Click: fallback flag",
+                            id="howto",
                         )
+                        yield BoardView(self.game_state)
                         yield Static(
-                            "Legend\n"
-                            "blank = hidden or empty\n"
-                            "1-8 = adjacent mines\n"
-                            "* = revealed mine",
+                            "Legend: blank = hidden or empty, F = flag, 1-8 = adjacent mines, * = mine",
                             id="legend",
                         )
-        yield Footer()
+                        yield Static(
+                            "Reveal every safe cell and avoid mines.",
+                            id="game-note",
+                        )
 
     def on_board_view_changed(self, message: BoardView.Changed) -> None:
-        self.query_one("#status", Static).update(message.status_text)
+        status = self.query_one("#status", Static)
+        is_win = self.game_state.game_over and self.game_state.is_win()
+        is_lose = self.game_state.game_over and self.game_state.is_lose()
+        if self.game_state.game_over:
+            status.update("Game finished. Restart the app to play again.")
+        else:
+            status.update(message.status_text)
+
+        if (
+            self.game_state.game_over
+            and message.status_text != self._last_game_over_message
+        ):
+            severity = "information" if is_win else "error"
+            self.notify(message.status_text, title="Game Result", severity=severity)
+            self._last_game_over_message = message.status_text
 
 
 def run() -> None:

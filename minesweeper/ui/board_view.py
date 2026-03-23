@@ -26,7 +26,7 @@ class BoardView(Widget):
     }
 
     BoardView Grid {
-        grid-size: 11 11;
+        grid-size: 9 9;
         grid-columns: 5 5 5 5 5 5 5 5 5;
         grid-rows: 3 3 3 3 3 3 3 3 3;
         grid-gutter: 0 0;
@@ -35,6 +35,9 @@ class BoardView(Widget):
     BoardView CellButton {
         min-width: 5;
         height: 3;
+        width: 5;
+        padding: 0;
+        margin: 0;
         content-align: center middle;
         border: round $panel;
         background: $panel;
@@ -49,19 +52,29 @@ class BoardView(Widget):
     }
 
     BoardView CellButton.-revealed {
-        background: #00ff00;
+        background: #d8dee9;
         color: #2e3440;
         border: round #d8dee9;
     }
 
     BoardView CellButton.-flagged {
-        background: #1f1e33;
-        color: #008000;
-        border: round #d8dee9;
+        background: #d08770;
+        color: #2e3440;
+        border: round #ebcb8b;
+    }
+
+    BoardView CellButton:hover {
+        text-style: bold;
+        tint: transparent;
+    }
+
+    BoardView CellButton:focus {
+        text-style: bold;
+        tint: transparent;
     }
 
     BoardView CellButton.-empty {
-        color: #ff0000;
+        color: #81a1c1;
     }
 
     BoardView CellButton.-mine {
@@ -107,7 +120,7 @@ class BoardView(Widget):
         height: 3;
         content-align: center middle;
         background: transparent;
-        color: $foreground;
+        color: #81a1c1;
         text-style: bold;
     }
     """
@@ -118,33 +131,20 @@ class BoardView(Widget):
 
     def compose(self) -> ComposeResult:
         with Grid():
-            yield Label(str(""), classes="coord-label")
+            yield Label("·", classes="coord-label")
             for x in range(self.state.width):
-                yield Label(str(x), classes="coord-label")
+                yield Label(str(x + 1), classes="coord-label")
             for y, row in enumerate(self.state.board):
-                yield Label(str(y), classes="coord-label")
+                yield Label(chr(ord("A") + y), classes="coord-label")
                 for x, cell in enumerate(row):
                     yield CellButton(x, y, cell)
-
-    # def on_button_pressed(self, event: CellButton.Pressed) -> None:
-    #     cell_button = event.button
-    #     if event.shift:
-    #         self.state.toggle_flag(cell_button.x, cell_button.y)
-    #     else:
-    #         self.state.reveal_cell(cell_button.x, cell_button.y)
-    #     self.refresh_board()
-    #     self.post_message(self.Changed(self.state.status_text))
 
     def on_cell_button_clicked_action(self, event: CellButton.ClickedAction) -> None:
         cell_button = event.button
 
-        # 完美的互斥邏輯：有 Shift 就插旗，沒有就翻開
-        if event.shift:
-            # print("meow")
-            # self.state.reveal_cell(cell_button.x, cell_button.y)
+        if event.is_flag_action:
             self.state.toggle_flag(cell_button.x, cell_button.y)
         else:
-            # print("qq")
             self.state.reveal_cell(cell_button.x, cell_button.y)
 
         self.refresh_board()
@@ -153,6 +153,3 @@ class BoardView(Widget):
     def refresh_board(self) -> None:
         for button in self.query(CellButton):
             button.sync_with_cell(self.state.cell_at(button.x, button.y))
-
-    # TODO: Add visible row / column coordinates here and tighten the board layout
-    # so positions are easier to read at a glance.

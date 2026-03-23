@@ -13,19 +13,20 @@ class CellButton(Button):
         self.x = x
         self.y = y
         self.can_focus = False
+        self.flat = True
         self.sync_with_cell(cell)
 
     class ClickedAction(Message):
-        def __init__(self, button: "CellButton", shift: bool) -> None:
+        def __init__(self, button: "CellButton", is_flag_action: bool) -> None:
             self.button = button
-            self.shift = shift
+            self.is_flag_action = is_flag_action
             super().__init__()
 
     @staticmethod
     def _label_for(cell: Cell) -> str:
         if not cell.revealed:
             if cell.flagged:
-                return "*"
+                return "F"
             return " "
 
         if cell.has_mine:
@@ -34,16 +35,13 @@ class CellButton(Button):
         if cell.adjacent_mines == 0:
             return " "
 
-        if cell.adjacent_mines == 100:
-            return "?"
-
         return str(cell.adjacent_mines)
 
     def sync_with_cell(self, cell: Cell) -> None:
         self.label = self._label_for(cell)
         self.set_class(not cell.revealed, "-hidden")
         self.set_class(cell.revealed, "-revealed")
-        self.set_class(cell.flagged, "-flagged")
+        self.set_class(cell.flagged and not cell.revealed, "-flagged")
         self.set_class(
             cell.revealed and cell.adjacent_mines == 0 and not cell.has_mine, "-empty"
         )
@@ -55,10 +53,7 @@ class CellButton(Button):
                 f"-count-{count}",
             )
 
-    # TODO: Support right-click flag / unflag here and update the widget label or
-    # style to reflect flagged cells. The starter only wires left-click reveal so
-    # this can be owned as a separate collaboration issue.
-
     def on_click(self, event: events.Click) -> None:
-        event.stop()  # 阻擋預設不帶 shift 的 Pressed 事件
-        self.post_message(self.ClickedAction(self, event.shift))
+        event.stop()
+        is_flag_action = event.button == 3 or event.shift
+        self.post_message(self.ClickedAction(self, is_flag_action))

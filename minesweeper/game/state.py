@@ -12,8 +12,9 @@ class GameState:
     height: int = 8
     mine_count: int = 6
     board: list[list[Cell]] = field(init=False)
-    status_text: str = "Left click a cell to reveal it."
+    status_text: str = "Click to reveal. Right click or Shift + Click to flag."
     is_first_reveal: bool = True
+    game_over: bool = False
 
     def __post_init__(self) -> None:
         self.board = [
@@ -25,8 +26,19 @@ class GameState:
         return self.board[y][x]
 
     def reveal_cell(self, x: int, y: int) -> list[Cell]:
+        if self.game_over:
+            return []
+
         if self.is_first_reveal:
+            flagged_positions = {
+                (cell.x, cell.y)
+                for row in self.board
+                for cell in row
+                if cell.flagged and (cell.x, cell.y) != (x, y)
+            }
             self.board = create_board(self.width, self.height, self.mine_count, (x, y))
+            for flagged_x, flagged_y in flagged_positions:
+                self.board[flagged_y][flagged_x].flagged = True
             self.is_first_reveal = False
 
         changed_cells = reveal_cells(self.board, x, y)
@@ -35,24 +47,31 @@ class GameState:
             cell = changed_cells[-1]
             self.status_text = f"Revealed ({cell.x}, {cell.y})"
         if self.is_win():
-            self.status_text = f"You win!"
+            self.game_over = True
+            self.status_text = "You win! All safe cells are revealed."
         if self.is_lose():
-            self.status_text = f"You lose :("
+            self.game_over = True
+            self.status_text = "You hit a mine. Game over."
 
         return changed_cells
 
     def toggle_flag(self, x: int, y: int) -> None:
+        if self.game_over:
+            return
+
         cell = self.cell_at(x, y)
         if not cell.revealed:
             cell.flagged = not cell.flagged
+            if cell.flagged:
+                self.status_text = f"Flagged ({x}, {y})"
+            else:
+                self.status_text = f"Removed flag from ({x}, {y})"
 
     def is_win(self) -> bool:
         for row in self.board:
             for cell in row:
                 if cell.has_mine is False and cell.revealed is False:
                     return False
-        # TODO: Implement win detection after reveal logic is complete. The starter
-        # should eventually report a win when every non-mine cell has been opened.
         return True
 
     def is_lose(self) -> bool:
@@ -60,6 +79,4 @@ class GameState:
             for cell in row:
                 if cell.has_mine is True and cell.revealed is True:
                     return True
-        # TODO: Implement lose detection and expose a proper game-over state. The
-        # starter does not stop input or report results yet, even if a mine is hit.
         return False
