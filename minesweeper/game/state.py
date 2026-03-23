@@ -28,7 +28,7 @@ class GameState:
         if self.is_first_reveal:
             self.board = create_board(self.width, self.height, self.mine_count, (x, y))
             self.is_first_reveal = False
-        
+
         changed_cells = reveal_cells(self.board, x, y)
 
         if changed_cells:
