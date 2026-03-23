@@ -4,6 +4,7 @@ from textual.app import ComposeResult
 from textual.containers import Grid
 from textual.message import Message
 from textual.widget import Widget
+from textual.widgets import Label
 
 from minesweeper.game.state import GameState
 from minesweeper.ui.widgets import CellButton
@@ -25,9 +26,9 @@ class BoardView(Widget):
     }
 
     BoardView Grid {
-        grid-size: 10 10;
-        grid-columns: 5 5 5 5 5 5 5 5 5 5;
-        grid-rows: 3 3 3 3 3 3 3 3 3 3;
+        grid-size: 11 11;
+        grid-columns: 5 5 5 5 5 5 5 5 5;
+        grid-rows: 3 3 3 3 3 3 3 3 3;
         grid-gutter: 0 0;
     }
 
@@ -94,6 +95,15 @@ class BoardView(Widget):
     BoardView CellButton.-count-8 {
         color: #4c566a;
     }
+
+    BoardView .coord-label {
+        width: 5;
+        height: 3;
+        content-align: center middle;
+        background: transparent;
+        color: $foreground;
+        text-style: bold;
+    }
     """
 
     def __init__(self, state: GameState) -> None:
@@ -102,7 +112,11 @@ class BoardView(Widget):
 
     def compose(self) -> ComposeResult:
         with Grid():
+            yield Label(str(""), classes="coord-label")
+            for x in range(self.state.width):
+                yield Label(str(x), classes="coord-label")
             for y, row in enumerate(self.state.board):
+                yield Label(str(y), classes="coord-label")
                 for x, cell in enumerate(row):
                     yield CellButton(x, y, cell)
 
