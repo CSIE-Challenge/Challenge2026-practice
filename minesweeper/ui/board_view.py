@@ -54,6 +54,12 @@ class BoardView(Widget):
         border: round #d8dee9;
     }
 
+    BoardView CellButton.-flagged {
+        background: #1f1e33;
+        color: #008000;
+        border: round #d8dee9;
+    }
+
     BoardView CellButton.-empty {
         color: #ff0000;
     }
@@ -120,9 +126,27 @@ class BoardView(Widget):
                 for x, cell in enumerate(row):
                     yield CellButton(x, y, cell)
 
-    def on_button_pressed(self, event: CellButton.Pressed) -> None:
+    # def on_button_pressed(self, event: CellButton.Pressed) -> None:
+    #     cell_button = event.button
+    #     if event.shift:
+    #         self.state.toggle_flag(cell_button.x, cell_button.y)
+    #     else:
+    #         self.state.reveal_cell(cell_button.x, cell_button.y)
+    #     self.refresh_board()
+    #     self.post_message(self.Changed(self.state.status_text))
+
+    def on_cell_button_clicked_action(self, event: CellButton.ClickedAction) -> None:
         cell_button = event.button
-        self.state.reveal_cell(cell_button.x, cell_button.y)
+
+        # 完美的互斥邏輯：有 Shift 就插旗，沒有就翻開
+        if event.shift:
+            # print("meow")
+            # self.state.reveal_cell(cell_button.x, cell_button.y)
+            self.state.toggle_flag(cell_button.x, cell_button.y)
+        else:
+            # print("qq")
+            self.state.reveal_cell(cell_button.x, cell_button.y)
+
         self.refresh_board()
         self.post_message(self.Changed(self.state.status_text))
 
