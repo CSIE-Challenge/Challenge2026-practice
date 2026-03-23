@@ -12,7 +12,7 @@ class GameState:
     height: int = 8
     board: list[list[Cell]] = field(init=False)
     status_text: str = "Left click a cell to reveal it."
-    
+
     def __post_init__(self) -> None:
         self.board = create_board(self.width, self.height)
 

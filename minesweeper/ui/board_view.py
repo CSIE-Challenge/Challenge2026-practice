@@ -123,7 +123,7 @@ class BoardView(Widget):
 
     def on_cell_button_clicked_action(self, event: CellButton.ClickedAction) -> None:
         cell_button = event.button
-        
+
         # 完美的互斥邏輯：有 Shift 就插旗，沒有就翻開
         if event.shift:
             # print("meow")
@@ -132,7 +132,7 @@ class BoardView(Widget):
         else:
             # print("qq")
             self.state.reveal_cell(cell_button.x, cell_button.y)
-            
+
         self.refresh_board()
         self.post_message(self.Changed(self.state.status_text))
 

@@ -14,11 +14,13 @@ class CellButton(Button):
         self.y = y
         self.can_focus = False
         self.sync_with_cell(cell)
+
     class ClickedAction(Message):
         def __init__(self, button: "CellButton", shift: bool) -> None:
             self.button = button
             self.shift = shift
             super().__init__()
+
     @staticmethod
     def _label_for(cell: Cell) -> str:
         if not cell.revealed:
@@ -33,7 +35,7 @@ class CellButton(Button):
             return " "
 
         return str(cell.adjacent_mines)
-    
+
     def sync_with_cell(self, cell: Cell) -> None:
         self.label = self._label_for(cell)
         self.set_class(not cell.revealed, "-hidden")
@@ -48,7 +50,6 @@ class CellButton(Button):
             self.set_class(
                 cell.revealed and not cell.has_mine and cell.adjacent_mines == count,
                 f"-count-{count}",
-                
             )
 
     # TODO: Support right-click flag / unflag here and update the widget label or
@@ -56,5 +57,5 @@ class CellButton(Button):
     # this can be owned as a separate collaboration issue.
 
     def on_click(self, event: events.Click) -> None:
-        event.stop() # 阻擋預設不帶 shift 的 Pressed 事件
+        event.stop()  # 阻擋預設不帶 shift 的 Pressed 事件
         self.post_message(self.ClickedAction(self, event.shift))
