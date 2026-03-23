@@ -39,7 +39,6 @@ class GameState:
         if self.is_lose():
             self.status_text = f"You lose :("
 
-
         return changed_cells
 
     def toggle_flag(self, x: int, y: int) -> None:
